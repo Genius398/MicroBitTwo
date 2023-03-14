@@ -1,8 +1,10 @@
 from microbit import *
-import music
 import radio
+import log
+
 radio.config(group=4)
 radio.on()
+log.delete(True)
 
 while True:
     def update():
@@ -11,12 +13,10 @@ while True:
         light1=display.read_light_level()
         
         if mic > 75:
-            radio.send('Mi')
+            radio.send("Mi")
             sleep(12610)
-        elif magne > 295:
-            radio.send('Ma')
-            sleep(12610)
-        elif accelerometer.get_gestures()=='shake':
-            radio.send('Sh')
-            
+        elif magne < 81:
+            radio.send("Ma")
+            log.add({'Strength':magne})
+            sleep(12610)     
     update()
